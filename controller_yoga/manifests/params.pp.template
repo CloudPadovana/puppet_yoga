@@ -71,7 +71,8 @@ class controller_yoga::params ($cloud_role){
    $neutron_db = ''
    $neutron_password = ''
    $neutron_endpoint_override = ''
-   $neutron_keystone_authtoken_auth_url = 'http://xxx.xxx.xxx.xxx:5000' 
+   $neutron_keystone_authtoken_auth_url = 'http://xxx.xxx.xxx.xxx:5000'
+   $nova_disable_compute_service_check_for_ffu = true
    $nova_osapi_compute_workers = '8'
    $nova_conductor_workers = '8'
    $nova_scheduler_workers = '8'

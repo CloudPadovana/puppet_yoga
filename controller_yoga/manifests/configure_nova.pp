@@ -159,6 +159,10 @@ define do_config_list ($conf_file, $section, $param, $values) {
   controller_yoga::configure_nova::do_config { 'nova_amqp_durable_queues': conf_file => '/etc/nova/nova.conf', section => 'oslo_messaging_rabbit', param => 'amqp_durable_queues', value => $controller_yoga::params::amqp_durable_queues, }
   controller_yoga::configure_nova::do_config { 'nova_policy_file': conf_file => '/etc/nova/nova.conf', section => 'oslo_policy', param => 'policy_file', value => $controller_yoga::params::nova_policy_file, }
 
+#
+# Necessario per update da versione n a versione n+m (non m>1)
+  controller_yoga::configure_nova::do_config { 'nova_disable_compute_service_check_for_ffu': conf_file => '/etc/nova/nova.conf', section => 'workarounds', param => 'disable_compute_service_check_for_ffu', value => $controller_yoga::params::nova_disable_compute_service_check_for_ffu, }
+
 
 
 ######nova_policy and 00-nova-placement are copied from /controller_yoga/files dir       
