@@ -59,7 +59,11 @@ class compute_yoga::neutron inherits compute_yoga::params {
   ### FF erano da controllare in OCATA, controllare ora se vanno mantenuti in ROCKY 
   compute_yoga::neutron::do_config { 'neutron_core_plugin': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'core_plugin', value => $compute_yoga::params::core_plugin, }
   compute_yoga::neutron::do_config { 'neutron_service_plugins': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'service_plugins', value => $compute_yoga::params::service_plugins, }
-  compute_yoga::neutron::do_config { 'neutron_allow_overlapping_ips': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'allow_overlapping_ips', value => $compute_yoga::params::allow_overlapping_ips, }
+
+  ## MS Deprecato in Yoga
+  ## E cmq usavamo il valore di default (true)
+  ## Cmq quel parametro viene settato in /usr/share/neutron/neutron-dist.conf
+  ## compute_yoga::neutron::do_config { 'neutron_allow_overlapping_ips': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'allow_overlapping_ips', value => $compute_yoga::params::allow_overlapping_ips, }
   ###
   compute_yoga::neutron::do_config { 'neutron_keystone_authtoken_memcached_servers': conf_file => '/etc/neutron/neutron.conf', section => 'keystone_authtoken', param => 'memcached_servers', value => $compute_yoga::params::memcached_servers, }
   compute_yoga::neutron::do_config { 'neutron_username': conf_file => '/etc/neutron/neutron.conf', section => 'keystone_authtoken', param => 'username', value => $compute_yoga::params::neutron_username, }
