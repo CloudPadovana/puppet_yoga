@@ -36,7 +36,10 @@ define remove_config ($conf_file, $section, $param, $value) {
    controller_yoga::configure_neutron::do_config { 'neutron_auth_strategy': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'auth_strategy', value => $controller_yoga::params::auth_strategy, }
    controller_yoga::configure_neutron::do_config { 'neutron_core_plugin': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'core_plugin', value => $controller_yoga::params::neutron_core_plugin, }
    controller_yoga::configure_neutron::do_config { 'neutron_service_plugins': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'service_plugins', value => $controller_yoga::params::neutron_service_plugins, }
-   controller_yoga::configure_neutron::do_config { 'neutron_allow_overlapping_ips': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'allow_overlapping_ips', value => $controller_yoga::params::neutron_allow_overlapping_ips, }
+
+  # deprecato in yoga
+  # comunque settato in /usr/share/neutron/neutron-dist.conf
+  # controller_yoga::configure_neutron::do_config { 'neutron_allow_overlapping_ips': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'allow_overlapping_ips', value => $controller_yoga::params::neutron_allow_overlapping_ips, }
    controller_yoga::configure_neutron::do_config { 'neutron_notify_nova_on_port_status_changes': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'notify_nova_on_port_status_changes', value => $controller_yoga::params::neutron_notify_nova_on_port_status_changes, }
    controller_yoga::configure_neutron::do_config { 'neutron_notify_nova_on_port_data_changes': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'notify_nova_on_port_data_changes', value => $controller_yoga::params::neutron_notify_nova_on_port_data_changes, }
    controller_yoga::configure_neutron::do_config { 'neutron_dhcp_agents_per_network': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'dhcp_agents_per_network', value => $controller_yoga::params::dhcp_agents_per_network, }
