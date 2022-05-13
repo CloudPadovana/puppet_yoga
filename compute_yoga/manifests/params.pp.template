@@ -127,6 +127,7 @@ w
   $neutron_lock_path               = '/var/lib/neutron/tmp'       
   $neutron_username      = 'neutron'
   $nova_compute_driver = 'libvirt.LibvirtDriver'       
+  $nova_disable_compute_service_check_for_ffu = true
   $nova_enabled_apis = 'osapi_compute,metadata'
   $nova_firewall_driver    = 'nova.virt.firewall.NoopFirewallDriver'
   $nova_instance_usage_audit = false

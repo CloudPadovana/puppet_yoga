@@ -157,6 +157,8 @@ compute_yoga::nova::do_config { 'nova_state_path': conf_file => '/etc/nova/nova.
   compute_yoga::nova::do_config { 'nova_cinder_username': conf_file => '/etc/nova/nova.conf', section => 'cinder', param => 'username', value => $compute_yoga::params::cinder_username, }
   compute_yoga::nova::do_config { 'nova_cinder_password': conf_file => '/etc/nova/nova.conf', section => 'cinder', param => 'password', value => $compute_yoga::params::cinder_password, }
 
+# Necessario per update da versione n a versione n+m (non m>1)
+  compute_yoga::nova::do_config { 'nova_disable_compute_service_check_for_ffu': conf_file => '/etc/nova/nova.conf', section => 'workarounds', param => 'disable_compute_service_check_for_ffu', value => $compute_yoga::params::nova_disable_compute_service_check_for_ffu, }
 
 
 #### per https nel compute non dovrebbe servire
