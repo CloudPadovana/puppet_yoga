@@ -52,6 +52,10 @@ define remove_config ($conf_file, $section, $param, $value) {
    controller_yoga::configure_neutron::do_config { 'neutron_allow_automatic_dhcp_failover': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'allow_automatic_dhcp_failover', value => $controller_yoga::params::allow_automatic_dhcp_failover, }
    controller_yoga::configure_neutron::do_config { 'neutron_api_workers': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'api_workers', value => $controller_yoga::params::neutron_api_workers, }
 
+# Configurazione per rsyslog centralizzato
+   controller_yoga::configure_neutron::do_config { 'neutron_use_syslog': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'use_syslog', value => $controller_yoga::params::neutron_use_syslog, }
+   controller_yoga::configure_neutron::do_config { 'neutron_syslog_log_facility': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'syslog_log_facility', value => $controller_yoga::params::neutron_syslog_log_facility, }
+
    controller_yoga::configure_neutron::do_config { 'neutron_db': conf_file => '/etc/neutron/neutron.conf', section => 'database', param => 'connection', value => $controller_yoga::params::neutron_db, }
 
        controller_yoga::configure_neutron::do_config { 'neutron_lock_path': conf_file => '/etc/neutron/neutron.conf', section => 'oslo_concurrency', param => 'lock_path', value => $controller_yoga::params::neutron_lock_path, }

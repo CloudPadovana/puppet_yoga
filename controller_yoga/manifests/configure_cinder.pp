@@ -37,6 +37,11 @@ define remove_config ($conf_file, $section, $param, $value) {
   controller_yoga::configure_cinder::do_config { 'cinder_transport_url': conf_file => '/etc/cinder/cinder.conf', section => 'DEFAULT', param => 'transport_url', value => $controller_yoga::params::transport_url, }
   controller_yoga::configure_cinder::do_config { 'cinder_osapi_volume_workers': conf_file => '/etc/cinder/cinder.conf', section => 'DEFAULT', param => 'osapi_volume_workers', value => $controller_yoga::params::cinder_osapi_volume_workers, }
 
+# Configurazione per rsyslog centralizzato
+  controller_yoga::configure_cinder::do_config { 'cinder_use_syslog': conf_file => '/etc/cinder/cinder.conf', section => 'DEFAULT', param => 'use_syslog', value => $controller_yoga::params::cinder_use_syslog, }
+  controller_yoga::configure_cinder::do_config { 'cinder_syslog_log_facility': conf_file => '/etc/cinder/cinder.conf', section => 'DEFAULT', param => 'syslog_log_facility', value => $controller_yoga::params::cinder_syslog_log_facility, }
+
+
    ## FF da queens cambiano le porte, /etc/cinder/cinder.conf [keystone_authtoken] auth_uri = http://controller:5000 e auth_url = http://controller:5000
    ## MS Anche per cinder dovrebbe essere auth_uri --> www_authenticate_uri
    controller_yoga::configure_cinder::do_config { 'cinder_www_authenticate_uri': conf_file => '/etc/cinder/cinder.conf', section => 'keystone_authtoken', param => 'www_authenticate_uri', value => $controller_yoga::params::www_authenticate_uri, }   

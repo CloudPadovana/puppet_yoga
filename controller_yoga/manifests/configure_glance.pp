@@ -52,7 +52,12 @@ define remove_config ($conf_file, $section, $param, $value) {
   controller_yoga::configure_glance::do_config { 'glance_image_size_cap': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'image_size_cap', value => $controller_yoga::params::glance_image_size_cap, }
   controller_yoga::configure_glance::do_config { 'glance_api_show_image_direct_url': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'show_image_direct_url', value => $controller_yoga::params::glance_api_show_image_direct_url, }
   controller_yoga::configure_glance::do_config { 'glance_api_enabled_backends': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'enabled_backends', value => $controller_yoga::params::glance_api_enabled_backends, }
-  controller_yoga::configure_glance::do_config { 'glance_log_dir': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'log_dir', value => $controller_yoga::params::glance_log_dir, }
+  controller_yoga::configure_glance::do_config { 'glance_api_log_dir': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'log_dir', value => $controller_yoga::params::glance_api_log_dir, }
+
+# Configurazione per rsyslog centralizzato
+  controller_yoga::configure_glance::do_config { 'glance_api_use_syslog': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'use_syslog', value => $controller_yoga::params::glance_api_use_syslog, }
+  controller_yoga::configure_glance::do_config { 'glance_api_syslog_log_facility': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'syslog_log_facility', value => $controller_yoga::params::glance_api_syslog_log_facility, }
+
   controller_yoga::configure_glance::do_config { 'glance_workers': conf_file => '/etc/glance/glance-api.conf', section => 'DEFAULT', param => 'workers', value => $controller_yoga::params::glance_workers, }
   controller_yoga::configure_glance::do_config { 'glance_api_filesystem_store_datadir': conf_file => '/etc/glance/glance-api.conf', section => 'os_glance_staging_store', param => 'filesystem_store_datadir', value => $controller_yoga::params::glance_api_filesystem_store_datadir, }
 

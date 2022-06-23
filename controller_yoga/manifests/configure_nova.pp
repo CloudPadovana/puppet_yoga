@@ -77,6 +77,11 @@ define do_config_list ($conf_file, $section, $param, $values) {
    ## FF in xena va esplicitato
    controller_yoga::configure_nova::do_config { 'nova_log_dir': conf_file => '/etc/nova/nova.conf', section => 'DEFAULT', param => 'log_dir', value => $controller_yoga::params::nova_log_dir, }
 
+# Configurazione per rsyslog centralizzato
+   controller_yoga::configure_nova::do_config { 'nova_use_syslog': conf_file => '/etc/nova/nova.conf', section => 'DEFAULT', param => 'use_syslog', value => $controller_yoga::params::nova_use_syslog, }
+   controller_yoga::configure_nova::do_config { 'nova_syslog_log_facility': conf_file => '/etc/nova/nova.conf', section => 'DEFAULT', param => 'syslog_log_facility', value => $controller_yoga::params::nova_syslog_log_facility, }
+
+
    controller_yoga::configure_nova::do_config { 'nova_osapi_compute_workers': conf_file => '/etc/nova/nova.conf', section => 'DEFAULT', param => 'osapi_compute_workers', value => $controller_yoga::params::nova_osapi_compute_workers, }
    controller_yoga::configure_nova::do_config { 'nova_metadata_workers': conf_file => '/etc/nova/nova.conf', section => 'DEFAULT', param => 'metadata_workers', value => $controller_yoga::params::nova_metadata_workers, }
 

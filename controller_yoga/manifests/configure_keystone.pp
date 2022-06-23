@@ -66,6 +66,10 @@ define do_config_list ($conf_file, $section, $param, $values) {
   # MS. Sembra che in xena non rispetti il default per log_dir e serve quindi settarlo esplicitamente
   controller_yoga::configure_keystone::do_config { 'keystone_log_dir': conf_file => '/etc/keystone/keystone.conf', section => 'DEFAULT', param => 'log_dir', value => $controller_yoga::params::keystone_log_dir, }
 
+  # Configurazione per rsyslog centralizzato
+  controller_yoga::configure_keystone::do_config { 'keystone_use_syslog': conf_file => '/etc/keystone/keystone.conf', section => 'DEFAULT', param => 'use_syslog', value => $controller_yoga::params::keystone_use_syslog, }
+  controller_yoga::configure_keystone::do_config { 'keystone_syslog_log_facility': conf_file => '/etc/keystone/keystone.conf', section => 'DEFAULT', param => 'syslog_log_facility', value => $controller_yoga::params::keystone_syslog_log_facility, }
+
 
 
 # Deprecated
