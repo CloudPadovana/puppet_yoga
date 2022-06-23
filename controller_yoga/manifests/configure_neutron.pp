@@ -55,6 +55,9 @@ define remove_config ($conf_file, $section, $param, $value) {
 # Configurazione per rsyslog centralizzato
    controller_yoga::configure_neutron::do_config { 'neutron_use_syslog': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'use_syslog', value => $controller_yoga::params::neutron_use_syslog, }
    controller_yoga::configure_neutron::do_config { 'neutron_syslog_log_facility': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'syslog_log_facility', value => $controller_yoga::params::neutron_syslog_log_facility, }
+   controller_yoga::configure_neutron::do_config { 'neutron_global_physnet_mtu': conf_file => '/etc/neutron/neutron.conf', section => 'DEFAULT', param => 'global_physnet_mtu', value => $controller_yoga::params::neutron_global_physnet_mtu, }
+
+
 
    controller_yoga::configure_neutron::do_config { 'neutron_db': conf_file => '/etc/neutron/neutron.conf', section => 'database', param => 'connection', value => $controller_yoga::params::neutron_db, }
 
@@ -116,6 +119,8 @@ controller_yoga::configure_neutron::do_config { 'neutron_enable_proxy_headers_pa
    controller_yoga::configure_neutron::do_config { 'ml2_type_drivers': conf_file => '/etc/neutron/plugins/ml2/ml2_conf.ini', section => 'ml2', param => 'type_drivers', value => $controller_yoga::params::ml2_type_drivers, }
    controller_yoga::configure_neutron::do_config { 'ml2_tenant_network_types': conf_file => '/etc/neutron/plugins/ml2/ml2_conf.ini', section => 'ml2', param => 'tenant_network_types', value => $controller_yoga::params::ml2_tenant_network_types, }
    controller_yoga::configure_neutron::do_config { 'ml2_mechanism_drivers': conf_file => '/etc/neutron/plugins/ml2/ml2_conf.ini', section => 'ml2', param => 'mechanism_drivers', value => $controller_yoga::params::ml2_mechanism_drivers, }
+   controller_yoga::configure_neutron::do_config { 'ml2_path_mtu': conf_file => '/etc/neutron/plugins/ml2/ml2_conf.ini', section => 'ml2', param => 'path_mtu', value => $controller_yoga::params::ml2_path_mtu, }
+   
 
    controller_yoga::configure_neutron::do_config { 'ml2_tunnel_id_ranges': conf_file => '/etc/neutron/plugins/ml2/ml2_conf.ini', section => 'ml2_type_gre', param => 'tunnel_id_ranges', value => $controller_yoga::params::ml2_tunnel_id_ranges, }
 
@@ -170,7 +175,7 @@ controller_yoga::configure_neutron::do_config { 'neutron_enable_proxy_headers_pa
   controller_yoga::configure_neutron::do_config { 'dhcp_interface_driver': conf_file => '/etc/neutron/dhcp_agent.ini', section => 'DEFAULT', param => 'interface_driver', value => $controller_yoga::params::interface_driver, }
   controller_yoga::configure_neutron::do_config { 'dhcp_driver': conf_file => '/etc/neutron/dhcp_agent.ini', section => 'DEFAULT', param => 'dhcp_driver', value => $controller_yoga::params::dhcp_driver, }
 
-  if $::controller_yoga::cloud_role == "is_test" {
+#  if $::controller_yoga::cloud_role == "is_test" {
       file { "$controller_yoga::params::dnsmasq_config_file":
         ensure   => file,
         owner    => "root",
@@ -184,7 +189,7 @@ controller_yoga::configure_neutron::do_config { 'neutron_enable_proxy_headers_pa
       param => 'dnsmasq_config_file', 
       value => $controller_yoga::params::dnsmasq_config_file,
     }
-  }
+ # }
 
 # metadata_agent.ini
    controller_yoga::configure_neutron::do_config { 'metadata_auth_ca_cert': conf_file => '/etc/neutron/metadata_agent.ini', section => 'DEFAULT', param => 'auth_ca_cert', value => $controller_yoga::params::cafile, }
