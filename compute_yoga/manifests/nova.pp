@@ -190,6 +190,13 @@ compute_yoga::nova::do_config { 'nova_enable_proxy_headers_parsing': conf_file =
            value    => $compute_yoga::params::rabbit_ha_queues, 
          }
 
+   compute_yoga::nova::do_config { "nova_heartbeat_in_pthread":
+           conf_file => '/etc/nova/nova.conf',
+           section   => 'oslo_messaging_rabbit',
+           param     => 'heartbeat_in_pthread',
+           value    => $compute_yoga::params::nova_heartbeat_in_pthread,
+         }
+
 
 # GPU specific setting and some setting for better performance for SSD disk for cld-dfa-gpu-01
  if ($::mgmtnw_ip == "192.168.60.107") {
@@ -255,6 +262,25 @@ compute_yoga::nova::do_config { 'nova_enable_proxy_headers_parsing': conf_file =
 
 
 }
+
+
+# GPU specific settings for cld-dfa-gpu-04
+
+if ($::mgmtnw_ip == "192.168.60.215") {
+
+compute_yoga::nova::do_config { 'pci_passthrough_whitelist': conf_file => '/etc/nova/nova.conf', section => 'pci', param => 'passthrough_whitelist', value => $compute_yoga::params::pci_passthrough_whitelist, }
+
+   compute_yoga::nova::do_config_list { "pci_alias":
+           conf_file => '/etc/nova/nova.conf',
+           section   => 'pci',
+           param     => 'alias',
+           values    => [ "$compute_yoga::params::pci_A2" ],
+         }
+
+
+}
+
+
 
 
 
