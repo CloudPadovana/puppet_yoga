@@ -123,8 +123,10 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
   
   if "${::fqdn}" =~ /01/ {
     $renew_schedule = "15 0 * * *"
+    $chk_gate_schedule = "30 0 * * *"
   } else {
     $renew_schedule = "30 0 * * *"
+    $chk_gate_schedule = "45 0 * * *"
   }
   
   file { "/etc/cron.d/openstack-auth-shib-cron":

@@ -215,4 +215,13 @@ HORIZON_CONFIG['organization'] = {
     "studenti.unipd.it" : unipd_dpt_list
 }
 
+<% unless @gate_credentials == "" -%>
+SCRIPT_PARAMETERS = {
+    'PRIVATE_KEY_PATH' : '<%=@gate_credentials-%>',
+    'GATE_USER' : '<%=@user_on_gate-%>',
+    'GATE_ADDRESS' : 'gate.cloudveneto.it',
+    'GATE_BAN_SCRIPT' : '<%=@gate_disable_script-%>',
+    'GATE_ALLOW_SCRIPT' : '<%=@gate_enable_script-%>'
+}
+<% end -%>
 
