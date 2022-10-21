@@ -10,7 +10,8 @@ class controller_yoga::params ($cloud_role){
    $aai_db_port = 0
    $aai_db_pwd = ""
    $aai_db_user = ""
-   $aai_mail_admins = {'Cloud Support', ''}
+   $aai_mail_admins = [ "Supporto CloudVeneto <support@cloudveneto.it>" ]
+   $replay_to = "Supporto CloudVeneto <support@cloudveneto.it>"
    $aai_mail_host = ""
    $aai_mail_port = 25
    $aai_mail_pwd = ""
@@ -108,7 +109,8 @@ class controller_yoga::params ($cloud_role){
    $aai_db_port = 0
    $aai_db_pwd = ""
    $aai_db_user = ""
-   $aai_mail_admins = {'Cloud Support', ''}
+   $aai_mail_admins = [ "Supporto CloudVeneto <support@cloudveneto.it>" ]
+   $replay_to = "Supporto CloudVeneto <support@cloudveneto.it>"
    $aai_mail_host = ""
    $aai_mail_port = 25
    $aai_mail_pwd = ""

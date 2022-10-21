@@ -21,11 +21,12 @@ EMAIL_HOST_USER = '<%=@aai_mail_user-%>'
 EMAIL_HOST_PASSWORD = '<%=@aai_mail_pwd-%>'
 <% end -%>
 SERVER_EMAIL = '<%=@aai_mail_sender-%>'
-MANAGERS = (
+MANAGERS = [
 <% @aai_mail_admins.each do | aii_mail_admin | -%>
- <%=aii_mail_admin-%>,
+ "<%=aii_mail_admin-%>",
 <% end -%>
-)
+]
+REPLAYTO = [ "<%=@replay_to-%>" ]
 
 <% if @is_production -%>
 
