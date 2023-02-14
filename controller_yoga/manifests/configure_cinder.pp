@@ -89,6 +89,21 @@ define remove_config ($conf_file, $section, $param, $value) {
   controller_yoga::configure_cinder::do_config { 'cinder_ceph-ec_rbd_exclusive_cinder_pool': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ec', param => 'rbd_exclusive_cinder_pool', value => $controller_yoga::params::cinder_ceph_rbd_exclusive_cinder_pool, }
 
 
+############# Ceph SSD replica 3 configuration
+ controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_volume_group': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'volume_group', value => $controller_yoga::params::ceph_ssd_r3_volume_group, }
+   controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_volume_backend_name': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'volume_backend_name', value => $controller_yoga::params::ceph_ssd_r3_volume_backend_name, }
+   controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_volume_driver': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'volume_driver', value => $controller_yoga::params::ceph_volume_driver, }
+   controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_pool': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_pool', value => $controller_yoga::params::cinder_ceph_ssd_r3_rbd_pool, }
+   controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_ceph_conf': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_ceph_conf', value => $controller_yoga::params::ceph_rbd_ceph_conf, }
+   controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_flatten_volume_from_snapshot': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_flatten_volume_from_snapshot', value => $controller_yoga::params::ceph_rbd_flatten_volume_from_snapshot, }
+  controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_store_chunk_size': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_store_chunk_size', value => $controller_yoga::params::ceph_rbd_store_chunk_size, }
+  controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rados_connect_timeout': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rados_connect_timeout', value => $controller_yoga::params::ceph_rados_connect_timeout, }
+  controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_max_clone_depth': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_max_clone_depth', value => $controller_yoga::params::ceph_rbd_max_clone_depth, }
+  controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_user': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_user', value => $controller_yoga::params::cinder_ceph_rbd_user, }
+  controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_secret_uuid': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_secret_uuid', value => $controller_yoga::params::cinder_ceph_rbd_secret_uuid, }
+ # MS: Optimization that can be applied since the pool is used only for cinder      
+  controller_yoga::configure_cinder::do_config { 'cinder_ssd_r3_ceph_rbd_exclusive_cinder_pool': conf_file => '/etc/cinder/cinder.conf', section => 'ceph-ssd-r3', param => 'rbd_exclusive_cinder_pool', value => $controller_yoga::params::cinder_ceph_rbd_exclusive_cinder_pool, }
+
 
        
 ##########EqualLogic: e' stato definitivamente spendo 01/12/2021
