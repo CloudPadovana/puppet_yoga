@@ -6,7 +6,8 @@ class compute_yoga::firewall inherits compute_yoga::params {
 
   package { $fwpackages: ensure => "installed" }
 
-
+  #notify{"operatingsystemrelease = $operatingsystemrelease":}
+  #notify{"os = $os":}
 
 if $operatingsystemrelease =~ /^7.*/ {
   service { "NetworkManager":
@@ -15,7 +16,6 @@ if $operatingsystemrelease =~ /^7.*/ {
           }
 }       
 
-if $operatingsystemrelease =~ /^8.*/ {
 # Change backend from nftables to iptables
      $fwbackend = 'iptables'
      augeas {"Change firewalld backend from nftables to iptables":
@@ -26,7 +26,7 @@ if $operatingsystemrelease =~ /^8.*/ {
        notify => Service['firewalld'],
             }
 
-}
+
 
 
   
