@@ -23,38 +23,43 @@ include compute_yoga::params
          
        
   file {"nova_sshdir":
-            ensure  => "directory",
+            ensure  => directory,
             path    => "$home_dir/.ssh",
             owner   => nova,
             group   => nova,
             mode    => "0700",
        }
 
-  File["nova_sshdir"] -> file {
-	"config_ssh":
+  file {"config_ssh":
+            ensure  => file,
             path    => "$home_dir/.ssh/config",
 	    content => "$config",
             owner   => nova,
-            group   => nova;
+            group   => nova,
+       }
 
-	"private_key":
+  file {"private_key":
 	    source  => "puppet:///modules/compute_yoga/$compute_yoga::params::private_key",
 	    path    => "$home_dir/.ssh/id_rsa",
+            ensure  => file,
             owner   => nova,
             group   => nova,
-            mode    => "0600";
+            mode    => "0600",
+       }
 
-	"public_key":
+  file {"public_key":
+            ensure  => file,
             path    => "$home_dir/.ssh/id_rsa.pub",
             content => "$compute_yoga::params::pub_key",
             owner   => nova,
-            group   => nova;
+            group   => nova,
+       }
 
-        "authorized_keys":
+  file {"authorized_keys":
+            ensure  => file,
             path    => "$home_dir/.ssh/authorized_keys",
             content => "$compute_yoga::params::pub_key",
-            ensure  => present,
             owner   => nova,
-            group   => nova;
+            group   => nova,
        }
 }

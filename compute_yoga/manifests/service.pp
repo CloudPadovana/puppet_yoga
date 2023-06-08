@@ -27,13 +27,26 @@ class compute_yoga::service inherits compute_yoga::params {
                         require     => Package["openstack-neutron-openvswitch"],
                }
 
-       service { "messagebus":
-                     ensure      => running,
-                     enable      => true,
-                     hasstatus   => true,
-                     hasrestart  => true,
-                     require     => Package["libvirt"],
-               }
+       if $operatingsystemrelease =~ /^9.*/ {
+           service { "dbus.service":
+                         ensure      => running,
+                         enable      => true,
+                         hasstatus   => true,
+                         hasrestart  => true,
+                         require     => Package["dbus-daemon"],
+                   }
+       }
+
+
+       if $operatingsystemrelease =~ /^8.*/ {
+           service { "messagebus":
+                         ensure      => running,
+                         enable      => true,
+                         hasstatus   => true,
+                         hasrestart  => true,
+                         require     => Package["libvirt"],
+                   }
+       }
 
 
        service { "openstack-nova-compute":
