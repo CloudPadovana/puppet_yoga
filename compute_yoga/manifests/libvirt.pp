@@ -2,12 +2,14 @@ class compute_yoga::libvirt {
 
 include compute_yoga::params
 
-   $libvirtpackages = [ "libvirt" ]
+   $libvirtpackages = [ "libvirt", "dbus-daemon" ]
   
      package { $libvirtpackages: ensure => "installed" }
 
-
-if $operatingsystemrelease =~ /^8.*/ {
+if $operatingsystemrelease =~ /^9.*/ {
+   $extralibvirtpackages = ["qemu-kvm-device-display-virtio-vga", "qemu-kvm-device-display-virtio-gpu", "qemu-kvm-device-display-virtio-gpu-pci" ]
+   package { $extralibvirtpackages: ensure => "installed" }
+}
 
     exec { "Disable socket activation mode for libvirt":
          path => "/usr/bin",
@@ -15,9 +17,17 @@ if $operatingsystemrelease =~ /^8.*/ {
          onlyif => "systemctl | grep 'libvirtd.*socket' | grep -v 'masked'",
          require => Package["libvirt"],
          notify => Service['libvirtd'],
-  }
+}
 
-}  
+# Disable virtqemud. In Almalinux9 sarebbe abilitato e da' problemi con libvirtd
+  service { "virtqemud.socket":
+             ensure      => stopped,
+             enable      => false,
+          }
+
+
+
+
 #
 # systemctl mask libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tcp.socket libvirtd-tls.socket
 # unless systemctl | grep 'libvirtd.*socket.*masked'

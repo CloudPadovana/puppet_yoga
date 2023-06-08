@@ -71,8 +71,16 @@ include compute_yoga::params
 
 
 
-   package { "ca_TERENA-SSL-CA-3":
-             source   => "https://artifacts.pd.infn.it/packages/CAP/misc/CentOS8/noarch/ca_TERENA-SSL-CA-3-1.0-2.el8.noarch.rpm",
-             provider => "rpm",
-        }
+   if $operatingsystemrelease =~ /^9.*/ {
+       package { "ca_TERENA-SSL-CA-3":
+                 source   => "https://artifacts.pd.infn.it/packages/CAP/misc/Alma9/ca_TERENA-SSL-CA-3-1.0-2.el9.noarch.rpm",
+                 provider => "rpm",
+            }
+   }
+   else { 
+       package { "ca_TERENA-SSL-CA-3":
+                 source   => "https://artifacts.pd.infn.it/packages/CAP/misc/CentOS8/noarch/ca_TERENA-SSL-CA-3-1.0-2.el8.noarch.rpm",
+                 provider => "rpm",
+            }
+   }
 }

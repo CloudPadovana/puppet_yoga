@@ -52,12 +52,31 @@ $cloud_role = $compute_yoga::cloud_role
     ensure => 'installed',
   } ->
 
-  exec { "yum enable PowerTools repo":
-         command => "/usr/bin/yum-config-manager --enable powertools",
-         unless => "/usr/bin/yum repolist enabled | grep -i powertools",
-         timeout => 3600,
-         require => Package[$yumutils],
-  } ->
+  if $operatingsystemrelease =~ /^9.*/ {
+      exec { "yum enable crb repo":
+             command => "/usr/bin/yum-config-manager --enable crb",
+             unless => "/usr/bin/yum repolist enabled | grep -i crb",
+             timeout => 3600,
+             require => Package[$yumutils],
+      }
+  }
+  else { 
+      exec { "yum enable PowerTools repo":
+             command => "/usr/bin/yum-config-manager --enable powertools",
+             unless => "/usr/bin/yum repolist enabled | grep -i powertools",
+             timeout => 3600,
+             require => Package[$yumutils],
+      }
+  }
+
+### non serve
+#  if $operatingsystemrelease =~ /^9.*/ {
+#      exec { "yum install rdma-core-devel rdma-core ":
+#             command => "/usr/bin/yum -y install rdma-core-devel rdma-core",
+#             timeout => 3600,
+#      }
+#  }
+
 
 # Esegue yum clean all once (lo si fa a meno che non stiamo gia` usando il repo yoga)
   exec { "clean repo cache":
@@ -71,7 +90,7 @@ $cloud_role = $compute_yoga::cloud_role
 
   ### negli update si consiglia di disabilitare EPEL (epel-next e' l'unico abilitato da disabilitare) 
   exec { "yum disable EPEL repo":
-         command => "/usr/bin/yum-config-manager --disable epel\*",
+         command => "/usr/bin/yum-config-manager --disable epel\\*",
          onlyif => "/bin/rpm -qa | grep centos-release-openstack-yoga && /usr/bin/yum repolist enabled | grep epel",
          timeout => 3600,
          require => Package[$yumutils],
@@ -153,18 +172,21 @@ $cloud_role = $compute_yoga::cloud_role
 
 # Eseguo uno yum update se il pacchetto python*-networkx.noarch non proviene dal repo yoga 
 # (Il nome del pacchetto varia tra centos7 e centos8)
-# Serve almeno per installazioni da scratch su centos8
-  exec { "yum update in DELL hosts":
-         command => "/usr/bin/yum -y --disablerepo dell-system-update_independent --disablerepo dell-system-update_dependent -x facter update",
-         onlyif => "/bin/rpm -q dell-system-update &&  /usr/bin/yum list installed | grep python3-networkx | grep -v 'centos-openstack-yoga'",
-         timeout => 3600,
-  } ->
+# Serve a quanto pare solo per installazioni da scratch su centos8 (cosa che non dovrebbe piu' succedere)
+# Almeno per il momento lo commento
+##
+##  exec { "yum update in DELL hosts":
+##         command => "/usr/bin/yum -y --disablerepo dell-system-update_independent --disablerepo dell-system-update_dependent -x facter update",
+##         onlyif => "/bin/rpm -q dell-system-update &&  /usr/bin/yum list installed | grep python3-networkx | grep -v 'centos-openstack-yoga'",
+##         timeout => 3600,
+##
+## } ->
 
-  exec { "yum update":
-         command => "/usr/bin/yum -y update",
-         onlyif => "/bin/rpm -q dell-system-update | grep 'not installed' &&  /usr/bin/yum list installed | grep python3-networkx | grep -v 'centos-openstack-yoga'",
-         timeout => 3600,
-  } ->
+ ## exec { "yum update":
+ ##       command => "/usr/bin/yum -y update",
+ ##        onlyif => "/bin/rpm -q dell-system-update | grep 'not installed' &&  /usr/bin/yum list installed | grep python3-networkx | grep -v 'centos-openstack-yoga'",
+ ##       timeout => 3600,
+ ## } ->
 
   
   file_line { '/etc/sudoers.d/neutron  syslog':
