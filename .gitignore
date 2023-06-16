@@ -3,6 +3,7 @@ controller_yoga/manifests/params.pp
 controller_yoga/files/CloudVenetoCAs.pem
 controller_yoga/files/id_rsa_ctrl-01
 controller_yoga/files/id_rsa_controller-01
+controller_yoga/files/id_rsa_cloudtest
 controller_yoga/files/INFN-CA.pem
 controller_yoga/files/cafile.pem
 controller_yoga/files/ceph.conf
@@ -22,3 +23,5 @@ compute_yoga/files/nagios_check_ovs.sh
 compute_yoga/files/check_kvm_wrapper.sh
 compute_yoga/files/secret.xml
 compute_yoga/files/secret_test.xml
+compute_yoga/files/check_lvs.py.orig
+compute_yoga/files/id_rsa_cloudtest

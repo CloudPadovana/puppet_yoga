@@ -29,8 +29,29 @@ class compute_yoga::nagiossetting inherits compute_yoga::params {
              #subscribe   => Class['compute_yoga::nova'],
           }
 
+### FEDE vedi ticket PDCL-2010
+     if $operatingsystemrelease =~ /^9.*/ {
+         file {'check_lvs.py':
+                 content  => template('compute_yoga/check_lvs.py.template'),
+                 #source      => 'puppet:///template/compute_yoga/check_lvs.py.template',
+                 path        => '/usr/local/bin/check_lvs.py',
+                 mode        => '+x',
+              }
+     }
+###
 # NAGIOS - various crontabs
 
+### FEDE cron per check_lvs:  */5 * * * * root /usr/local/bin/check_lvs.py -w 80 --critical 90
+     if $operatingsystemrelease =~ /^9.*/ {
+         cron {'check_lvs':
+                 ensure      => present,
+                 command     => "/usr/local/bin/check_lvs.py -w 80 --critical 90",
+                 user        => root,
+                 minute      => '*/5',
+                 hour        => '*',
+              }
+     }
+###
      cron {'nagios_check_ovs':
              ensure      => present,
              command     => "/usr/local/bin/nagios_check_ovs.sh",
