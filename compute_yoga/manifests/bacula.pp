@@ -42,5 +42,31 @@ case $operatingsystemrelease {
                       }
 
             }
+    /^9.*/: {
+  
+              package { $baculapackages: ensure => "purged" }
+
+              package {"bareos-common":
+                 provider => "rpm",
+                 ensure   => installed,
+                 source => "https://download.bareos.org/current/EL_9/x86_64/bareos-common-22.1.1~pre18.1c87f96b5-68.el9.x86_64.rpm",
+                      }  
+ 
+              package {"bareos-filedaemon":
+                 provider => "rpm",
+                 ensure   => installed,
+                 source => "https://download.bareos.org/current/EL_9/x86_64/bareos-filedaemon-22.1.1~pre18.1c87f96b5-68.el9.x86_64.rpm",
+                 require => Package["bareos-common"],
+                      }  
+  
+              service { "bareos-fd":
+                 ensure => running,
+                 enable => true,
+                 hasstatus => true,
+                 hasrestart => true,
+                 require => Package["bareos-filedaemon"],
+                      }
+
+            }
 }
 }
