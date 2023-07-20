@@ -137,8 +137,8 @@ class lvs_check:
             #    send_mail("Result check",self.mail_from,self.mail_to,result_check.stdout)
 
         except subprocess.CalledProcessError as e:
-            print(e.output)
-            send_mail("run",self.mail_from,self.mail_to,e.stdout)
+            print(str(e))
+            send_mail("run",self.mail_from,self.mail_to,str(e))
 
 
 def main(argv):
