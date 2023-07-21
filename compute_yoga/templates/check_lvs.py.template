@@ -6,6 +6,8 @@ import smtplib
 import subprocess
 import socket
 import re
+import random
+import time
 
 SOCKET = None
 def check_already_running(uniq_name):
@@ -45,7 +47,6 @@ class lvs_check:
         self.sensor_status = 0
         self.output_status = ""
         self.nagios_server = "<%= @nagios_server %>"
-        self.nagios_conf = "/etc/nagios/send_nsca.cfg"
         self.mail_from = "<%= @nagios_email %>"
         self.mail_to = "<%= @nagios_email %>"
         
@@ -126,19 +127,25 @@ class lvs_check:
             else:
                 self.output_status = "OK - " + self.output_status
 
-        try:
-            hostname = socket.gethostname().split('.')[0]
-            # 0 - OK
-            # 1 - Warning
-            # 2 - Error
-            #print('echo -e "' + hostname + '\t'+ self.sensor_name + '\t' + str(self.sensor_status) + '\t' + self.output_status + '\n"')
-            result_check = subprocess.run('echo -e "' + hostname + '\t'+ self.sensor_name + '\t' + str(self.sensor_status) + '\t' + self.output_status + '\n" | /usr/sbin/send_nsca -H ' + self.nagios_server + ' -c ' + self.nagios_conf, shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
-            #if result_check.returncode != 0:
-            #    send_mail("Result check",self.mail_from,self.mail_to,result_check.stdout)
-
-        except subprocess.CalledProcessError as e:
-            print(str(e))
-            send_mail("run",self.mail_from,self.mail_to,str(e))
+        count = 0
+        while count < 4:
+            count += 1
+            rand_time = random.randint(1,30)
+            time.sleep(rand_time)
+            try:
+                hostname = socket.gethostname().split('.')[0]
+                # 0 - OK
+                # 1 - Warning
+                # 2 - Error
+                #print('echo -e "' + hostname + '\t'+ self.sensor_name + '\t' + str(self.sensor_status) + '\t' + self.output_status + '\n"')
+                result_check = subprocess.run('echo -e "' + hostname + '\t'+ self.sensor_name + '\t' + str(self.sensor_status) + '\t' + self.output_status + '\n" | /usr/sbin/send_nsca -H ' + self.nagios_server + ' -c ' + self.nagios_conf, shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
+                #if result_check.returncode != 0:
+                #    send_mail("Result check",self.mail_from,self.mail_to,result_check.stdout)
+                break
+    
+            except subprocess.CalledProcessError as e:
+                print(str(e))
+                #send_mail("run",self.mail_from,self.mail_to,str(e))
 
 
 def main(argv):
