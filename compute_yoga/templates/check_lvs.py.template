@@ -47,6 +47,7 @@ class lvs_check:
         self.sensor_status = 0
         self.output_status = ""
         self.nagios_server = "<%= @nagios_server %>"
+        self.nagios_conf = "/etc/nagios/send_nsca.cfg"
         self.mail_from = "<%= @nagios_email %>"
         self.mail_to = "<%= @nagios_email %>"
         
