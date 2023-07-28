@@ -251,6 +251,50 @@ SCRIPT_PARAMETERS = {
     'GATE_DRY_RUN' : True
 }
 
+SG_RULES_TABLE = {
+    'default' : [
+        {
+            'direction': 'ingress',
+            'ethertype': 'IPv4',
+            'protocol': 'tcp',
+            'port_range_min': 22,
+            'port_range_max': 22,
+            'remote_ip_prefix': "0.0.0.0/0",
+        },
+        {
+            'direction': 'ingress',
+            'ethertype': 'IPv4',
+            'protocol': 'icmp',
+            'remote_ip_prefix': "0.0.0.0/0",
+        }
+    ],
+    'K8S' : [
+        {
+            'direction': 'ingress',
+            'ethertype': 'IPv4',
+            'protocol': 'tcp',
+            'remote_ip_prefix': "192.168.60.0/24",
+        },
+        {
+            'direction': 'ingress',
+            'ethertype': 'IPv4',
+            'protocol': 'udp',
+            'remote_ip_prefix': "192.168.60.0/24",
+        },
+        {
+            'direction': 'ingress',
+            'ethertype': 'IPv4',
+            'protocol': 'tcp',
+            'remote_ip_prefix': "10.66.0.0/16",
+        },
+        {
+            'direction': 'ingress',
+            'ethertype': 'IPv4',
+            'protocol': 'udp',
+            'remote_ip_prefix': "10.66.0.0/16",
+        }
+    ]
+}
 <% end -%>
 
 
