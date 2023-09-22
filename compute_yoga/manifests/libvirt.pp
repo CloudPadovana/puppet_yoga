@@ -61,15 +61,21 @@ if $operatingsystemrelease =~ /^9.*/ {
         notify => Service['libvirtd'],
       }
 
-
-     $args_val = '--listen'
-
-     augeas {"/etc/sysconfig/libvirtd libvirtd args":
-       context => "/files/etc/sysconfig/libvirtd",
-       changes => "set LIBVIRTD_ARGS '\"${args_val}\"'",
-       onlyif  => "get LIBVIRTD_ARGS != '\"${args_val}\"'",
+      if $operatingsystemrelease =~ /^9.*/ {
+            file_line { '/etc/libvirt/libvirt.conf remote_mode':
+              path   => '/etc/libvirt/libvirt.conf',
+              line   => 'remote_mode = "legacy"',
+              notify => Service['libvirtd'],
             }
+      }
 
+      $args_val = '--listen'
+
+      augeas {"/etc/sysconfig/libvirtd libvirtd args":
+        context => "/files/etc/sysconfig/libvirtd",
+        changes => "set LIBVIRTD_ARGS '\"${args_val}\"'",
+        onlyif  => "get LIBVIRTD_ARGS != '\"${args_val}\"'",
+      }
 
       file_line { '/etc/libvirt/qemu.conf user':
         path  => '/etc/libvirt/qemu.conf',

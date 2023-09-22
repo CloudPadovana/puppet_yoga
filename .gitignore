@@ -25,3 +25,4 @@ compute_yoga/files/secret.xml
 compute_yoga/files/secret_test.xml
 compute_yoga/files/check_lvs.py.orig
 compute_yoga/files/id_rsa_cloudtest
+compute_yoga/files/id_rsa_ctrl-01.old
