@@ -35,5 +35,4 @@ class controller_yoga::rsyslog inherits controller_yoga::params {
           mode    => "0644",
           notify => Service['rsyslog'],
          }
-
 }
