@@ -119,6 +119,18 @@ define do_config_list ($conf_file, $section, $param, $values) {
    controller_yoga::configure_nova::do_config { 'nova_password': conf_file => '/etc/nova/nova.conf', section => 'keystone_authtoken', param => 'password', value => $controller_yoga::params::nova_password, }
    controller_yoga::configure_nova::do_config { 'nova_cafile': conf_file => '/etc/nova/nova.conf', section => 'keystone_authtoken', param => 'cafile', value => $controller_yoga::params::cafile, }
 
+   # MS per service token
+   controller_yoga::configure_nova::do_config { 'nova_service_user_auth_url': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'auth_url', value => $controller_yoga::params::nova_keystone_authtoken_auth_url, }  
+   controller_yoga::configure_nova::do_config { 'nova_service_user_auth_plugin': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'auth_type', value => $controller_yoga::params::auth_type, }
+   controller_yoga::configure_nova::do_config { 'nova_service_user_project_domain_name': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'project_domain_name', value => $controller_yoga::params::project_domain_name, }
+   controller_yoga::configure_nova::do_config { 'nova_service_user_user_domain_name': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'user_domain_name', value => $controller_yoga::params::user_domain_name, }
+   controller_yoga::configure_nova::do_config { 'nova_service_user_project_name': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'project_name', value => $controller_yoga::params::project_name, }
+   controller_yoga::configure_nova::do_config { 'nova_service_user_username': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'username', value => $controller_yoga::params::nova_username, }
+   controller_yoga::configure_nova::do_config { 'nova_service_user_password': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'password', value => $controller_yoga::params::nova_password, }
+   controller_yoga::configure_nova::do_config { 'nova_service_user_cafile': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'cafile', value => $controller_yoga::params::cafile, }
+   controller_yoga::configure_nova::do_config { 'nova_service_user_send_service_user_token': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'send_service_user_token', value => $controller_yoga::params::send_service_user_token, }
+   ###
+
   # MS In xena da` un warning se questo non e` a true
   # Ma almeno per qualche servizio da` problemi se e` a true
 #   controller_yoga::configure_nova::do_config { 'nova_service_token_roles_required': conf_file => '/etc/nova/nova.conf', section => 'keystone_authtoken', param => 'service_token_roles_required', value => $controller_yoga::params::nova_service_token_roles_required, }

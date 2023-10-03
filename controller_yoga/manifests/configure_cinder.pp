@@ -54,7 +54,10 @@ define remove_config ($conf_file, $section, $param, $value) {
    controller_yoga::configure_cinder::do_config { 'cinder_password': conf_file => '/etc/cinder/cinder.conf', section => 'keystone_authtoken', param => 'password', value => $controller_yoga::params::cinder_password, }
    controller_yoga::configure_cinder::do_config { 'cinder_cafile': conf_file => '/etc/cinder/cinder.conf', section => 'keystone_authtoken', param => 'cafile', value => $controller_yoga::params::cafile, }
    controller_yoga::configure_cinder::do_config { 'cinder_keystone_authtoken_memcached_servers': conf_file => '/etc/cinder/cinder.conf', section => 'keystone_authtoken', param => 'memcached_servers', value => $controller_yoga::params::memcached_servers, }
-
+   # MS per service token
+   controller_yoga::configure_cinder::do_config { 'cinder_keystone_authtoken_service_token_roles': conf_file => '/etc/cinder/cinder.conf', section => 'keystone_authtoken', param => 'service_token_roles', value => $controller_yoga::params::service_token_roles, }
+   controller_yoga::configure_cinder::do_config { 'cinder_keystone_authtoken_service_token_roles_required': conf_file => '/etc/cinder/cinder.conf', section => 'keystone_authtoken', param => 'service_token_roles_required', value => $controller_yoga::params::service_token_roles_required, }
+   ##
    controller_yoga::configure_cinder::do_config { 'cinder_lock_path': conf_file => '/etc/cinder/cinder.conf', section => 'oslo_concurrency', param => 'lock_path', value => $controller_yoga::params::cinder_lock_path, }
 
 ############# Ceph configuration
