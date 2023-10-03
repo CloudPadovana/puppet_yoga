@@ -152,7 +152,8 @@ w
   $pci_passthrough_whitelist   = '{\"vendor_id\":\"10de\"}'
   $project_domain_name = 'default'
   $rabbit_ha_queues = false
-  $region_name             = 'regionOne'       
+  $region_name             = 'regionOne'
+  $send_service_user_token = true
   $service_plugins         = 'router'
   $tenant_network_types    = 'gre'
   $tunnel_id_ranges        = '1:1000'

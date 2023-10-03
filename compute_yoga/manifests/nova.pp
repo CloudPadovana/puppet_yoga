@@ -108,6 +108,21 @@ compute_yoga::nova::do_config { 'nova_state_path': conf_file => '/etc/nova/nova.
   compute_yoga::nova::do_config { 'nova_password': conf_file => '/etc/nova/nova.conf', section => 'keystone_authtoken', param => 'password', value => $compute_yoga::params::nova_password, }
   compute_yoga::nova::do_config { 'nova_cafile': conf_file => '/etc/nova/nova.conf', section => 'keystone_authtoken', param => 'cafile', value => $compute_yoga::params::cafile, }
 
+
+
+  compute_yoga::nova::do_config { 'nova_service_user_auth_type': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'auth_type', value => $compute_yoga::params::auth_type}
+  compute_yoga::nova::do_config { 'nova_service_user_project_domain_name': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'project_domain_name', value => $compute_yoga::params::project_domain_name, }
+  compute_yoga::nova::do_config { 'nova_service_user_user_domain_name': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'user_domain_name', value => $compute_yoga::params::user_domain_name, }
+  compute_yoga::nova::do_config { 'nova_service_user_auth_url': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'auth_url', value => $compute_yoga::params::nova_keystone_authtoken_auth_url, }
+  compute_yoga::nova::do_config { 'nova_service_user_project_name': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'project_name', value => $compute_yoga::params::project_name, }
+  compute_yoga::nova::do_config { 'nova_service_user_username': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'username', value => $compute_yoga::params::nova_username, }
+  compute_yoga::nova::do_config { 'nova_service_user_password': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'password', value => $compute_yoga::params::nova_password, }
+  compute_yoga::nova::do_config { 'nova_service_user_cafile': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'cafile', value => $compute_yoga::params::cafile, }
+  compute_yoga::nova::do_config { 'nova_service_user_send_service_user_token': conf_file => '/etc/nova/nova.conf', section => 'service_user', param => 'send_service_user_token', value => $compute_yoga::params::send_service_user_token, }
+
+
+
+
   compute_yoga::nova::do_config { 'nova_vnc_enabled': conf_file => '/etc/nova/nova.conf', section => 'vnc', param => 'enabled', value => $compute_yoga::params::vnc_enabled, }
   compute_yoga::nova::do_config { 'nova_vnc_server_listen': conf_file => '/etc/nova/nova.conf', section => 'vnc', param => 'server_listen', value => $compute_yoga::params::vnc_server_listen, }
   compute_yoga::nova::do_config { 'nova_vnc_server_proxyclient_address': conf_file => '/etc/nova/nova.conf', section => 'vnc', param => 'server_proxyclient_address', value => $compute_yoga::params::my_ip, }
