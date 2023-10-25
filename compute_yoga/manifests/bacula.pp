@@ -49,13 +49,13 @@ case $operatingsystemrelease {
               package {"bareos-common":
                  provider => "rpm",
                  ensure   => installed,
-                 source => "https://download.bareos.org/current/EL_9/x86_64/bareos-common-22.1.1~pre136.9f94e97fb-99.el9.x86_64.rpm",
+                 source => "https://download.bareos.org/current/EL_9/x86_64/bareos-common-22.1.1~pre160.72763729a-102.el9.x86_64.rpm",
                       }  
  
               package {"bareos-filedaemon":
                  provider => "rpm",
                  ensure   => installed,
-                 source => "https://download.bareos.org/current/EL_9/x86_64/bareos-filedaemon-22.1.1~pre136.9f94e97fb-99.el9.x86_64.rpm",
+                 source => "https://download.bareos.org/current/EL_9/x86_64/bareos-filedaemon-22.1.1~pre160.72763729a-102.el9.x86_64.rpm",
                  require => Package["bareos-common"],
                       }  
   
