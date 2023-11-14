@@ -201,6 +201,31 @@ controller_yoga::configure_neutron::do_config { 'neutron_enable_proxy_headers_pa
   
 ################
 
+    file { $controller_yoga::params::neutron_dhcp_agent_service_d_limit:
+            ensure => 'directory',
+            mode   => "0755",
+         }
+
+    file { $controller_yoga::params::neutron_openvswitch_agent_service_d_limit:
+            ensure => 'directory',
+            mode   => "0755",
+         }
+
+    file { $controller_yoga::params::neutron_server_service_d_limit:
+            ensure => 'directory',
+            mode   => "0755",
+         }
+
+    controller_yoga::configure_neutron::do_config { 'limit_no_file_dhcp_agent': conf_file => "$controller_yoga::params::neutron_dhcp_agent_service_d_limit/limits.conf", section => 'Service', param => 'LimitNOFILE', value => $controller_yoga::params::neutron_dhcp_agent_service_limit, }
+
+    controller_yoga::configure_neutron::do_config { 'limit_no_file_openvswitch_agent': conf_file => "$controller_yoga::params::neutron_openvswitch_agent_service_d_limit/limits.conf", section => 'Service', param => 'LimitNOFILE', value => $controller_yoga::params::neutron_openvswitch_agent_service_limit, }
+
+    controller_yoga::configure_neutron::do_config { 'limit_no_file_neutron_server': conf_file => "$controller_yoga::params::neutron_server_service_d_limit/limits.conf", section => 'Service', param => 'LimitNOFILE', value => $controller_yoga::params::neutron_server_service_limit, }
+
+
+################
+
+
   file {'/etc/neutron/plugin.ini':
               ensure      => link,
               target      => '/etc/neutron/plugins/ml2/ml2_conf.ini',
