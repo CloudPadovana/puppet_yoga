@@ -1,5 +1,5 @@
 class controller_yoga::configure_horizon inherits controller_yoga::params {
-  
+
   file { "/etc/httpd/conf.d/ssl.conf":
     ensure   => file,
     owner    => "root",
@@ -137,4 +137,14 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
     content  => template("controller_yoga/openstack-auth-shib-cron.erb"),
   }
 
+  ############################################################################
+  #  Memcached configuration
+  ############################################################################
+
+  file_line { 'memcached sysconfig':
+    ensure => present,
+    path   => '/etc/sysconfig/memcached',
+    line   => "OPTIONS=\"-l $::mgmtnw_ip\"",
+    match  => 'OPTIONS'
+  }
 }
