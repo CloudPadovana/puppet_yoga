@@ -122,9 +122,11 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
   }
   
   if "${::fqdn}" =~ /01/ {
+    $chk_exp_schedule = "5 0 * * 0,2,4,6"
     $renew_schedule = "15 0 * * *"
     $chk_gate_schedule = "0 6-20 * * *"
   } else {
+    $chk_exp_schedule = "5 0 * * 1,3,5"
     $renew_schedule = "30 0 * * *"
     $chk_gate_schedule = "30 6-20 * * *"
   }
