@@ -4,6 +4,10 @@ class controller_yoga::configure_openidc inherits controller_yoga::params {
     ensure  => present,
   }
   
+  package { "mod_oauth2":
+    ensure  => present,
+  }
+
   file { "/etc/httpd/conf.d/auth_openidc.conf":
     ensure   => file,
     owner    => "apache",
@@ -59,5 +63,6 @@ class controller_yoga::configure_openidc inherits controller_yoga::params {
   }
 
   Package["mod_auth_openidc"] -> File <| tag == 'oidc_conf' |>
+  Package["mod_oauth2"] -> File <| tag == 'oidc_conf' |>
 
 }

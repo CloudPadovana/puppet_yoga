@@ -115,15 +115,21 @@ SSLCipherSuite          "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA3
 <% end -%><%# end of @enable_oidc %>
 
 <% if @enable_infncloud -%>
-    OIDCOAuthVerifyJwksUri   https://iam.cloud.infn.it/jwk
-    OIDCOAuthRemoteUserClaim sub
+#    OIDCOAuthVerifyJwksUri   https://iam.cloud.infn.it/jwk
+#    OIDCOAuthRemoteUserClaim sub
 
+#    <Location ~ "/v3/OS-FEDERATION/identity_providers/infn-cc/protocols/openid/auth">
+#        Authtype oauth20
+#        Require  claim iss:https://iam.cloud.infn.it/
+#        LogLevel warn
+#    </Location>
     <Location ~ "/v3/OS-FEDERATION/identity_providers/infn-cc/protocols/openid/auth">
-        Authtype oauth20
-        Require  claim iss:https://iam.cloud.infn.it/
+        Authtype oauth2
+        Require  oauth2_claim iss:https://iam.cloud.infn.it/
+        OAuth2TokenVerify jwks_uri https://iam.cloud.infn.it/jwk jwks_uri.ssl_verify=false
+        OAuth2TargetPass prefix=OIDC_CLAIM_
         LogLevel warn
-    </Location>
-<% end -%><%# end of @enable_infncloud %>
+    </Location><% end -%><%# end of @enable_infncloud %>
 
 <% end -%><%# end of @enable_aai_ext %>
 
