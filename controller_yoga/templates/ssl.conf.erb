@@ -132,7 +132,7 @@ SSLCipherSuite          "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA3
         LogLevel warn
     </Location>
 
-    <Location ~ "/v3/OS-FEDERATION/identity_providers/infn-poc/protocols/openid/auth">
+    <Location ~ "/v3/OS-FEDERATION/identity_providers/infn-poc-icsc/protocols/openid/auth">
         Authtype oauth2
         Require  oauth2_claim iss:https://iam-poc-icsc.cloud.infn.it/
         OAuth2TokenVerify jwks_uri https://iam-poc-icsc.cloud.infn.it/jwk jwks_uri.ssl_verify=false
