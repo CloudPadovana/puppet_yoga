@@ -48,9 +48,16 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
       unless  => "/bin/grep Yoga /etc/yum.repos.d/openstack-security-integrations.repo 2>/dev/null >/dev/null",
     }
 
-    package { ["openstack-auth-cap", "openstack-auth-shib"]:
-      ensure  => latest,
-      require => Exec["download_cap_repo"],
+    if $facts['os']['name'] == 'CentOS' {
+      package { ["openstack-auth-cap", "openstack-auth-shib"]:
+        ensure  => latest,
+        require => Exec["download_cap_repo"],
+      }
+    } else {
+      package { "openstack-cloudveneto":
+        ensure  => latest,
+        require => Exec["download_cap_repo"],
+      }
     }
   
     file { "/usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.d/_1002_aai_settings.py":
@@ -59,6 +66,7 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
       group    => "apache",
       mode     => "0640",
       content  => template("controller_yoga/aai_settings.py.erb"),
+      tag      => ["aai_conf"],
     }
 
     file { "/usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.d/_1003_infnaai_settings.py":
@@ -67,6 +75,7 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
       group    => "apache",
       mode     => "0640",
       content  => template("controller_yoga/infnaai_settings.py.erb"),
+      tag      => ["aai_conf"],
     }
 
     file { "/usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.d/_1003_unipdsso_settings.py":
@@ -75,6 +84,7 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
       group    => "apache",
       mode     => "0640",
       content  => template("controller_yoga/unipdsso_settings.py.erb"),
+      tag      => ["aai_conf"],
     }
 
     file { "/usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.d/_1003_oidc_settings.py":
@@ -83,6 +93,7 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
       group    => "apache",
       mode     => "0640",
       content  => template("controller_yoga/oidc_settings.py.erb"),
+      tag      => ["aai_conf"],
     }
 
     file { "/etc/openstack-auth-shib/notifications/notifications_en.txt":
@@ -91,7 +102,13 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
       group    => "root",
       mode     => "0644",
       content  => template("controller_yoga/notifications_en.txt.erb"),
-      require  => Package["openstack-auth-cap"],
+      tag      => ["aai_conf"],
+    }
+
+    if $facts['os']['name'] == 'CentOS' {
+      Package["openstack-auth-cap"] -> File <| tag == 'aai_conf' |>
+    } else {
+      Package["openstack-cloudveneto"] -> File <| tag == 'aai_conf' |>
     }
 
 
