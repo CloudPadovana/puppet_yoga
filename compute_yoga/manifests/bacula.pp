@@ -21,13 +21,13 @@ case $operatingsystemrelease {
               package { $baculapackages: ensure => "purged" }
 
               package {"bareos-common":
-                 provider => "rpm",
+                 provider => "yum",
                  ensure   => installed,
                  source => "http://cld-config.cloud.pd.infn.it:8090/bareos/bareos-common-19.2.7-2.el8.x86_64.rpm",
                       }  
  
               package {"bareos-filedaemon":
-                 provider => "rpm",
+                 provider => "yum",
                  ensure   => installed,
                  source => "http://cld-config.cloud.pd.infn.it:8090/bareos/bareos-filedaemon-19.2.7-2.el8.x86_64.rpm",
                  require => Package["bareos-common"],
@@ -47,13 +47,13 @@ case $operatingsystemrelease {
               package { $baculapackages: ensure => "purged" }
 
               package {"bareos-common":
-                 provider => "rpm",
+                 provider => "yum",
                  ensure   => installed,
                  source => "http://cld-config.cloud.pd.infn.it:8090/bareos/bareos-common-19.2.7-2.el8.x86_64.rpm",
                       }  
  
               package {"bareos-filedaemon":
-                 provider => "rpm",
+                 provider => "yum",
                  ensure   => installed,
                  source => "http://cld-config.cloud.pd.infn.it:8090/bareos/bareos-filedaemon-19.2.7-2.el8.x86_64.rpm",
                  require => Package["bareos-common"],
