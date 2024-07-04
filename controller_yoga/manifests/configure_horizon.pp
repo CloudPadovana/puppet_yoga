@@ -43,20 +43,28 @@ class controller_yoga::configure_horizon inherits controller_yoga::params {
   ############################################################################
   if $enable_aai_ext {
  
-    exec { "download_cap_repo":
-      command => "/usr/bin/wget -q -O /etc/yum.repos.d/openstack-security-integrations.repo ${cap_repo_url}",
-      unless  => "/bin/grep Yoga /etc/yum.repos.d/openstack-security-integrations.repo 2>/dev/null >/dev/null",
-    }
-
     if $facts['os']['name'] == 'CentOS' {
+      exec { "download_cap_repo":
+        command => "/usr/bin/wget -q -O /etc/yum.repos.d/openstack-security-integrations.repo ${cap_repo_url}",
+        unless  => "/bin/grep Yoga /etc/yum.repos.d/openstack-security-integrations.repo 2>/dev/null >/dev/null",
+      }
+
       package { ["openstack-auth-cap", "openstack-auth-shib"]:
         ensure  => latest,
         require => Exec["download_cap_repo"],
       }
     } else {
+      file { "/etc/yum.repos.d/openstack-security-integrations.repo":
+        ensure   => file,
+        owner    => "root",
+        group    => "root",
+        mode     => "0640",
+        content  => file("controller_yoga/openstack-security-integrations.repo"),
+      }
+
       package { "openstack-cloudveneto":
         ensure  => latest,
-        require => Exec["download_cap_repo"],
+        require => File["/etc/yum.repos.d/openstack-security-integrations.repo"],
       }
     }
   
