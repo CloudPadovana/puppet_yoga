@@ -1,13 +1,28 @@
 class controller_yoga::configure_shibboleth inherits controller_yoga::params {
 
-  exec { "download_shib_repo":
-    command => "/usr/bin/wget -q -O /etc/yum.repos.d/shibboleth.repo ${shib_repo_url}",
-    creates => "/etc/yum.repos.d/shibboleth.repo",
-  }
-  
-  package { "shibboleth":
-    ensure  => present,
-    require => Exec["download_shib_repo"],
+  if $facts['os']['name'] == 'CentOS' {
+    exec { "download_shib_repo":
+      command => "/usr/bin/wget -q -O /etc/yum.repos.d/shibboleth.repo ${shib_repo_url}",
+      creates => "/etc/yum.repos.d/shibboleth.repo",
+    }
+    
+    package { "shibboleth":
+      ensure  => present,
+      require => Exec["download_shib_repo"],
+    }
+  } else {
+    file { "/etc/yum.repos.d/shibboleth.repo":
+      ensure   => file,
+      owner    => "root",
+      group    => "root",
+      mode     => "0640",
+      content  => file("controller_yoga/shibboleth.repo"),
+    }
+
+    package { "shibboleth":
+      ensure  => present,
+      require => File["/etc/yum.repos.d/shibboleth.repo"],
+    }
   }
   
   file { "/etc/shibboleth/horizon-infn-key.pem":
