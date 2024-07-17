@@ -10,17 +10,19 @@ class controller_yoga::install_ca_cert inherits controller_yoga::params {
 
   
 
-  $capackages = [   "ca-policy-egi-core",
-                         "fetch-crl"
-                     ]
-  package { $capackages: ensure => "installed" }
+  $capackages = [ "ca-policy-egi-core",  "fetch-crl" ]
+  package { $capackages:
+    ensure  => "installed",
+    require => "EGI-trustanchors",
+  }
 
-
+  # TODO remove old INFN CA certificate
   file {'INFN-CA.pem':
     source  => 'puppet:///modules/controller_yoga/INFN-CA.pem',
     path    => '/etc/grid-security/certificates/INFN-CA.pem',
   }
 
+  # TODO check if keys are necessary
   file { 'cert_pem':
     path    => '/etc/grid-security/cert.pem',
     source  => '/etc/grid-security/hostcert.pem',
@@ -37,4 +39,31 @@ class controller_yoga::install_ca_cert inherits controller_yoga::params {
     group   => 'apache'
   }
 
+  file { 'GEANT_OV_RSA_CA4.pem':
+    source  => 'puppet:///modules/controller_yoga/GEANT_OV_RSA_CA4.pem',
+    path    => '/etc/pki/ca-trust/source/anchors/GEANT_OV_RSA_CA4.pem',
+    tag     => [ "ca_conf" ],
+  }
+
+  file { 'GEANTeScienceSSLCA4.pem':
+    ensure  => link,
+    source  => '/etc/grid-security/certificates/GEANTeScienceSSLCA4.pem',
+    target  => '/etc/pki/ca-trust/source/anchors/GEANTeScienceSSLCA4.pem',
+    require => Package[ $capackages ],
+    tag     => [ "ca_conf" ],
+  }
+
+  file { 'USERTrustRSACertificationAuthority.pem':
+    ensure  => link,
+    source  => '/etc/grid-security/certificates/USERTrustRSACertificationAuthority.pem',
+    target  => '/etc/pki/ca-trust/source/anchors/USERTrustRSACertificationAuthority.pem',
+    require => Package[ $capackages ],
+    tag     => [ "ca_conf" ],
+  }
+
+  exec { 'update-ca-trust':
+    command => "/usr/bin/update-ca-trust extract",
+  }
+
+  Exec[ "update-ca-trust" ] -> File <| tag == 'ca_conf' |>
 }
