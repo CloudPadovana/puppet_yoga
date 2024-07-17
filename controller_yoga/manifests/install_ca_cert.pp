@@ -59,9 +59,10 @@ class controller_yoga::install_ca_cert inherits controller_yoga::params {
     }
 
     exec { 'update-ca-trust':
-      command => "/usr/bin/update-ca-trust extract",
+      command     => "/usr/bin/update-ca-trust extract",
+      refreshonly => true,
     }
 
-    File <| tag == 'ca_conf' |> -> Exec[ "update-ca-trust" ]
+    File <| tag == 'ca_conf' |> ~> Exec[ "update-ca-trust" ]
   }
 }
