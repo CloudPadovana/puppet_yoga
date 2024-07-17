@@ -8,8 +8,6 @@ class controller_yoga::install_ca_cert inherits controller_yoga::params {
           gpgkey=> 'http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3',
   }
 
-  
-
   $capackages = [ "ca-policy-egi-core",  "fetch-crl" ]
   package { $capackages:
     ensure  => "installed",
@@ -39,28 +37,31 @@ class controller_yoga::install_ca_cert inherits controller_yoga::params {
     group   => 'apache'
   }
 
-  file { '/etc/pki/ca-trust/source/anchors/GEANT_OV_RSA_CA4.pem':
-    source  => 'puppet:///modules/controller_yoga/GEANT_OV_RSA_CA4.pem',
-    tag     => [ "ca_conf" ],
-  }
+  if $facts['os']['name'] == 'AlmaLinux' {
 
-  file { '/etc/pki/ca-trust/source/anchors/GEANTeScienceSSLCA4.pem':
-    ensure  => link,
-    target  => '/etc/grid-security/certificates/GEANTeScienceSSLCA4.pem',
-    require => Package[ $capackages ],
-    tag     => [ "ca_conf" ],
-  }
+    file { '/etc/pki/ca-trust/source/anchors/GEANT_OV_RSA_CA4.pem':
+      source  => 'puppet:///modules/controller_yoga/GEANT_OV_RSA_CA4.pem',
+      tag     => [ "ca_conf" ],
+    }
 
-  file { '/etc/pki/ca-trust/source/anchors/USERTrustRSACertificationAuthority.pem':
-    ensure  => link,
-    target  => '/etc/grid-security/certificates/USERTrustRSACertificationAuthority.pem',
-    require => Package[ $capackages ],
-    tag     => [ "ca_conf" ],
-  }
+    file { '/etc/pki/ca-trust/source/anchors/GEANTeScienceSSLCA4.pem':
+      ensure  => link,
+      target  => '/etc/grid-security/certificates/GEANTeScienceSSLCA4.pem',
+      require => Package[ $capackages ],
+      tag     => [ "ca_conf" ],
+    }
 
-  exec { 'update-ca-trust':
-    command => "/usr/bin/update-ca-trust extract",
-  }
+    file { '/etc/pki/ca-trust/source/anchors/USERTrustRSACertificationAuthority.pem':
+      ensure  => link,
+      target  => '/etc/grid-security/certificates/USERTrustRSACertificationAuthority.pem',
+      require => Package[ $capackages ],
+      tag     => [ "ca_conf" ],
+    }
 
-  File <| tag == 'ca_conf' |> -> Exec[ "update-ca-trust" ] 
+    exec { 'update-ca-trust':
+      command => "/usr/bin/update-ca-trust extract",
+    }
+
+    File <| tag == 'ca_conf' |> -> Exec[ "update-ca-trust" ]
+  }
 }
