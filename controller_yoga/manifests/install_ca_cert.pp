@@ -39,10 +39,34 @@ class controller_yoga::install_ca_cert inherits controller_yoga::params {
 
   if $facts['os']['name'] == 'AlmaLinux' {
 
+    # Deployment of the CA GEANT_OV_RSA_CA4
+    file { '/etc/grid-security/certificates/GEANT_OV_RSA_CA4.pem':
+      source => 'puppet:///modules/controller_yoga/GEANT_OV_RSA_CA4.pem',
+      tag    => [ "ca_GEANT_OV_RSA_CA4" ],
+    }
+
+    file { '/etc/grid-security/certificates/GEANT-OV-RSA-CA-4.crl_url':
+      content => "http://crl.usertrust.com/USERTrustRSACertificationAuthority.crl",
+      tag     => [ "ca_GEANT_OV_RSA_CA4" ],
+    }
+
+    file { '/etc/grid-security/certificates/08ab1bf8.0':
+      target => '/etc/grid-security/certificates/GEANT_OV_RSA_CA4.pem',
+      tag     => [ "ca_GEANT_OV_RSA_CA4" ],
+    }
+
+    file { '/etc/grid-security/certificates/260b2ae6.0':
+      target => '/etc/grid-security/certificates/GEANT_OV_RSA_CA4.pem',
+      tag     => [ "ca_GEANT_OV_RSA_CA4" ],
+    }
+
+    # Registering the external CAs in the system truststore
     file { '/etc/pki/ca-trust/source/anchors/GEANT_OV_RSA_CA4.pem':
-      source  => 'puppet:///modules/controller_yoga/GEANT_OV_RSA_CA4.pem',
+      ensure  => link,
+      target  => '/etc/grid-security/certificates/GEANT_OV_RSA_CA4.pem',
       tag     => [ "ca_conf" ],
     }
+    File <| tag == 'ca_GEANT_OV_RSA_CA4' |> -> File[ "/etc/pki/ca-trust/source/anchors/GEANT_OV_RSA_CA4.pem" ]
 
     file { '/etc/pki/ca-trust/source/anchors/GEANTeScienceSSLCA4.pem':
       ensure  => link,
