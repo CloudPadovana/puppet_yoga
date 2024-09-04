@@ -345,6 +345,13 @@ compute_yoga::nova::do_config { 'pci_passthrough_whitelist': conf_file => '/etc/
            values    => [ "$compute_yoga::params::pci_A40" ],
          }
 
+   compute_yoga::nova::do_config_list { "pci_device_spec":
+           conf_file => '/etc/nova/nova.conf',
+           section   => 'pci',
+           param     => 'device_spec',
+           values    => [ "$compute_yoga::params::pci_device_spec_A40" ],
+         }
+
 
 }
 
