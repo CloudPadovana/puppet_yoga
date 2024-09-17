@@ -147,6 +147,8 @@ controller_yoga::configure_neutron::do_config { 'neutron_enable_proxy_headers_pa
    ###
    controller_yoga::configure_neutron::do_config { 'ovs_bridge_mappings': conf_file => '/etc/neutron/plugins/ml2/openvswitch_agent.ini', section => 'ovs', param => 'bridge_mappings', value => $controller_yoga::params::ml2_bridge_mappings, }
    controller_yoga::configure_neutron::do_config { 'ovs_enable_tunneling': conf_file => '/etc/neutron/plugins/ml2/openvswitch_agent.ini', section => 'ovs', param => 'enable_tunneling', value => $controller_yoga::params::ovs_enable_tunneling, }
+   controller_yoga::configure_neutron::do_config { 'ovs_of_inactivity_probe': conf_file => '/etc/neutron/plugins/ml2/openvswitch_agent.ini', section => 'ovs', param => 'of_inactivity_probe', value => $controller_yoga::params::of_inactivity_probe, }
+
    # The following parameter was introduced after the powercut of Nov 2018. Without this parameter we had problems with
    # external networks
    ### FF DEPRECATED in PIKE of_interface Open vSwitch agent configuration option --> the current default driver (native) will be the only supported of_interface driver
